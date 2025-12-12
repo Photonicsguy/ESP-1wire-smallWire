@@ -24,7 +24,7 @@ captive_portal:
 api:
 
 dashboard_import:
-  package_import_url: github://Photonicsguy/ESP-1wire-smallSense/refs/heads/main/smallwire.yaml
+  package_import_url: github://Photonicsguy/ESP-1wire-smallWire/refs/heads/main/smallwire.yaml
   import_full_config: false
 
 time:
