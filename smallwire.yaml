@@ -1,0 +1,84 @@
+esphome:
+  name: smallwire
+  friendly_name: smallWire
+  project:
+    name: "photonicsguy.smallWire"
+    version: "1.3"
+  name_add_mac_suffix: true
+
+esp8266:
+  board: esp01_1m
+  framework:
+    version: recommended
+logger: 
+  baud_rate: 0
+
+ota:
+  platform: esphome
+
+wifi:
+  ap:
+    password: "12345678"
+captive_portal:
+
+api:
+
+dashboard_import:
+  package_import_url: github://Photonicsguy/ESP-1wire-smallSense/refs/heads/main/smallwire.yaml
+  import_full_config: false
+
+time:
+  - platform: homeassistant
+    id: hass_time
+
+one_wire:
+ - platform: gpio
+   pin: GPIO0
+
+button:
+  - platform: restart
+    id: btnRestart
+    name: "Reboot"
+    entity_category: "diagnostic"
+
+light: #GPIO02 Blue Led
+  - platform: status_led
+    name: "Status"
+    entity_category: "diagnostic"
+    icon: mdi:alarm-light
+    pin:
+      number: GPIO02
+      inverted: true
+
+binary_sensor:
+  - platform: gpio
+    name: "1Wire Fault"
+    entity_category: "diagnostic"
+    icon: mdi:alert-circle
+    pin:
+      number: GPIO03
+      inverted: true
+      mode:
+        input: true
+        pullup: false
+    filters:
+      - delayed_on: 10ms
+    
+sensor:
+  - platform: wifi_signal
+    name: "RSSI"
+    id: rssi_db
+    update_interval: 60s
+    entity_category: "diagnostic"
+  - platform: uptime
+    name: Boot
+    entity_category: "diagnostic"
+    type: timestamp
+  - platform: dallas_temp
+    name: "Temperature"
+    id: tSense
+    filters:
+      - filter_out: 85.0
+      - or:
+        - throttle_average: 300s
+        - delta: 0.5
