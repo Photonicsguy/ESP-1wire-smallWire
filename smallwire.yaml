@@ -33,6 +33,7 @@ time:
 
 one_wire:
  - platform: gpio
+   id: one_wire_bus
    pin: GPIO0
 
 button:
