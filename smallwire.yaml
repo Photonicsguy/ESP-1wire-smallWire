@@ -17,6 +17,7 @@ ota:
   platform: esphome
 
 wifi:
+  min_auth_mode: WPA2
   ap:
     password: "12345678"
 captive_portal:
